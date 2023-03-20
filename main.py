@@ -28,3 +28,12 @@ def create(request: List[GeoLocList], db: Session = Depends(get_db)):
 def find_all(db: Session = Depends(get_db)):
     geoLocs = GeoLocRepository.find_all(db)
     return [GeoLocResponse.from_orm(geoLoc) for geoLoc in geoLocs]
+
+@app.get("/geolocs/{device_id}", response_model=List[GeoLocResponse])
+def find_by_device_id(device_id: int, db: Session = Depends(get_db)):
+    geoLocs = GeoLocRepository.find_by_device_id(db, device_id)
+    if not geoLocs:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Device não encontrado"
+        )
+    return [GeoLocResponse.from_orm(geoLoc) for geoLoc in geoLocs]

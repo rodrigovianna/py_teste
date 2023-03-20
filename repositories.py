@@ -17,3 +17,7 @@ class GeoLocRepository:
     @staticmethod
     def find_all(db: Session) -> List[GeoLoc]:
         return db.query(GeoLoc).all()
+
+    @staticmethod
+    def find_by_device_id(db: Session, id: int) -> GeoLoc:
+        return db.query(GeoLoc).filter(GeoLoc.device_id == id).all()

@@ -13,3 +13,7 @@ class GeoLocRepository:
             db.add(geoLoc)
         db.commit()
         return geoLoc
+
+    @staticmethod
+    def find_all(db: Session) -> List[GeoLoc]:
+        return db.query(GeoLoc).all()

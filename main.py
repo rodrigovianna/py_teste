@@ -23,3 +23,8 @@ def create(request: List[GeoLocList], db: Session = Depends(get_db)):
         r = GeoLocRepository.save(db, GeoLoc(**geoloc.dict()))
         geoLoc.append(GeoLocResponse.from_orm(r))
     return geoLoc
+
+@app.get("/geolocs", response_model=List[GeoLocResponse])
+def find_all(db: Session = Depends(get_db)):
+    geoLocs = GeoLocRepository.find_all(db)
+    return [GeoLocResponse.from_orm(geoLoc) for geoLoc in geoLocs]
